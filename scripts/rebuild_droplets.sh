@@ -4,7 +4,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export $(grep -v '^#' "$SCRIPT_DIR/.env" | xargs)
 
-IMAGE_SLUG="ubuntu-22-04-x64"
+IMAGE_SLUG="ubuntu-24-10-x64"
 
 # Rebuild registry
 curl -X POST "https://api.digitalocean.com/v2/droplets/$REGISTRY_ID/actions" \

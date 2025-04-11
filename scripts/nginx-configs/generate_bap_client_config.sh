@@ -15,39 +15,29 @@ if [ -z "$DOMAIN_NAME" ]; then
     exit 1
 fi
 
-# Define output file
+# Define output file (corrected to onix-bap-client)
 OUTPUT_FILE="onix-bap-client.${DOMAIN_NAME}"
 
 # Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
-        server_name onix-bap-client.${DOMAIN_NAME};
-        location / {
-                # This for Host, Client and Forwarded For
-                proxy_set_header Host \$http_host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    listen 80;
+    listen [::]:80;
+    server_name onix-bap-client.${DOMAIN_NAME};
+    location / {
+        # This for Host, Client and Forwarded For
+        proxy_set_header Host \$http_host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 
-                # For Web Sockets.
-                #proxy_http_version 1.1;
-                proxy_set_header Upgrade \$http_upgrade;
-                proxy_set_header Connection "upgrade";
+        # For Web Sockets
+        #proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
 
-                # For proxy
-                proxy_pass "http://localhost:5001";
-        }
-
-}
-server {
-    if (\$host = onix-bap-client.${DOMAIN_NAME}) {
-        return 301 https://\$host\$request_uri;
-    } # managed by Certbot
-
-        listen 80;
-        listen [::]:80;
-        server_name onix-bap-client.${DOMAIN_NAME};
-    return 404; # managed by Certbot
-
+        # For Proxy (assuming 5001 for client, adjust if needed)
+        proxy_pass "http://localhost:5001";
+    }
 }
 EOF
 
