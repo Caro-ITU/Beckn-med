@@ -19,19 +19,23 @@ create_env_file() {
     DOMAIN_NAME=$(get_user_input "Enter Domain Name: ")
 
     # Generate URLs based on domain name
-    REGISTRY_URL="https://registry.$DOMAIN_NAME"
-    GATEWAY_URL="https://gateway.$DOMAIN_NAME"
-    BAP_URL="https://bap.$DOMAIN_NAME"
-    BPP_URL="https://bpp.$DOMAIN_NAME"
+    REGISTRY_URL="https://onix-registry.$DOMAIN_NAME"
+    GATEWAY_URL="https://onix-gateway.$DOMAIN_NAME"
+    BAP_URL="https://onix-bap.$DOMAIN_NAME"
+    BAP_CLIENT_URL="https://onix-bap-client.$DOMAIN_NAME"
+    BPP_URL="https://onix-bpp.$DOMAIN_NAME"
+    BPP_CLIENT_URL="https://onix-bpp-client.$DOMAIN_NAME"
 
     # Content to write to .env file
     env_content="REGISTRY_IP=$REGISTRY_IP
 GATEWAY_IP=$GATEWAY_IP
 BAP_IP=$BAP_IP
 BPP_IP=$BPP_IP
+DOMAIN_NAME=$DOMAIN_NAME
 REGISTRY_URL=$REGISTRY_URL
 GATEWAY_URL=$GATEWAY_URL
 BAP_URL=$BAP_URL
+BAP_CLIENT_URL=$BAP_CLIENT_URL
 BPP_URL=$BPP_URL"
 
     # Write to .env file
