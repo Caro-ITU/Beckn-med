@@ -1,0 +1,27 @@
+server {
+
+        root /var/www/foodeez.dk/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name foodeez.dk www.foodeez.dk;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+
+}
+server {
+    if ($host = foodeez.dk) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name foodeez.dk www.foodeez.dk;
+    return 404; # managed by Certbot
+
+
+}
