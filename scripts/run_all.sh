@@ -40,4 +40,9 @@ echo "Running deploy_copy_configs.sh..."
 echo "Running deploy_enable_configs.sh..."
 ./deploy_enable_configs.sh
 
+# Change back to the root directory
+cd ..
+echo "Running setup_TLS.sh..."
+./setup_TLS.sh
+
 echo "All scripts completed successfully!"
