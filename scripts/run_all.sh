@@ -3,21 +3,6 @@
 # Exit on any error
 set -e
 
-# Start SSH agent
-echo "Starting SSH agent..."
-eval "$(ssh-agent -s)" > /dev/null
-
-# Add your SSH key to the agent (adjust the path if your key isn’t at ~/.ssh/id_rsa)
-echo "Adding SSH key..."
-if ! ssh-add ~/.ssh/id_rsa > /dev/null 2>&1; then
-    echo "Error: Failed to add SSH key to agent"
-    eval "$(ssh-agent -k)" > /dev/null
-    exit 1
-fi
-
-# Clean up SSH agent on exit (whether successful or due to an error)
-trap 'eval "$(ssh-agent -k)" > /dev/null; echo "SSH agent terminated"' EXIT
-
 # Run scripts in the root directory
 echo "Running setup_docker.sh..."
 ./setup_docker.sh

@@ -26,19 +26,6 @@ IPS=(
     "$BPP_IP"
 )
 
-# Start SSH agent
-eval "$(ssh-agent -s)" > /dev/null
-
-# Add your SSH key to the agent (adjust the path if your key isn’t at ~/.ssh/id_rsa)
-if ! ssh-add ~/.ssh/id_rsa > /dev/null 2>&1; then
-    echo "Error: Failed to add SSH key to agent"
-    eval "$(ssh-agent -k)" > /dev/null
-    exit 1
-fi
-
-# Clean up SSH agent on exit
-trap 'eval "$(ssh-agent -k)" > /dev/null' EXIT
-
 # Define the Docker installation command
 COMMAND="
 set -e

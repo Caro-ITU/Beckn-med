@@ -29,39 +29,6 @@ DOMAINS=(
     "onix-bap.$DOMAIN_NAME onix-bap-client.$DOMAIN_NAME"
 )
 
-# Start SSH agent
-eval "$(ssh-agent -s)" > /dev/null
-
-# Add SSH key to the agent
-echo "Adding SSH key..."
-if ! ssh-add ~/.ssh/id_rsa; then
-    echo "Error: Failed to add SSH key to agent"
-    eval "$(ssh-agent -k)" > /dev/null
-    exit 1
-fi
-
-# Verify SSH key is loaded
-if ! ssh-add -l > /dev/null; then
-    echo "Error: No identities found in SSH agent"
-    eval "$(ssh-agent -k)" > /dev/null
-    exit 1
-fi
-
-# Clean up SSH agent on exit
-trap 'eval "$(ssh-agent -k)" > /dev/null' EXIT
-
-# Test SSH connectivity sequentially first
-echo "Testing SSH connectivity..."
-for IP in $IPS; do
-    if ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@"$IP" "echo 'SSH OK'" > /dev/null 2>&1; then
-        echo "SSH connection to $IP successful"
-    else
-        echo "Error: Cannot connect to $IP via SSH"
-        eval "$(ssh-agent -k)" > /dev/null
-        exit 1
-    fi
-done
-
 # Run TLS setup in parallel
 pids=
 i=0

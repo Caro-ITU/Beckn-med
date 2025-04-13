@@ -21,10 +21,6 @@ DROPLET_IPS=(
     "$BAP_IP"
 )
 
-# Start ssh-agent and add the SSH key
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa || { echo "Failed to add SSH key"; exit 1; }
-
 # SSH into each and run the Nginx + UFW setup in parallel
 for IP in "${DROPLET_IPS[@]}"; do
     echo "Starting Nginx setup on $IP..."
@@ -33,8 +29,5 @@ done
 
 # Wait for all background jobs to finish
 wait
-
-# Clean up ssh-agent
-ssh-agent -k
 
 echo "Nginx installed and UFW configured on all droplets."

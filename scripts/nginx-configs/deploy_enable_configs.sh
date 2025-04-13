@@ -9,26 +9,10 @@ if [ ! -f "$SSH_KEY" ]; then
     exit 1
 fi
 
-# Start ssh-agent and capture its environment variables
-eval "$(ssh-agent -s)" > /dev/null
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to start ssh-agent"
-    exit 1
-fi
-
-# Prompt for SSH key passphrase
-echo "Enter passphrase for SSH key $SSH_KEY (you will only be prompted once for this script):"
-ssh-add "$SSH_KEY"
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to add SSH key to ssh-agent"
-    ssh-agent -k > /dev/null
-    exit 1
-fi
 
 # Check if .env file exists
 if [ ! -f ../.env ]; then
     echo "Error: .env file not found in /scripts/"
-    ssh-agent -k > /dev/null
     exit 1
 fi
 
@@ -38,7 +22,6 @@ source ../.env
 # Check required variables
 if [ -z "$DOMAIN_NAME" ] || [ -z "$REGISTRY_IP" ] || [ -z "$GATEWAY_IP" ] || [ -z "$BAP_IP" ] || [ -z "$BPP_IP" ]; then
     echo "Error: Missing required variables (DOMAIN_NAME, REGISTRY_IP, GATEWAY_IP, BAP_IP, BPP_IP) in /scripts/.env"
-    ssh-agent -k > /dev/null
     exit 1
 fi
 
@@ -77,6 +60,3 @@ for entry in "${CONFIG_FILES[@]}"; do
 done
 
 echo "Config file enabling completed."
-
-# Clean up ssh-agent
-ssh-agent -k > /dev/null
