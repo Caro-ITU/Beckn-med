@@ -93,6 +93,28 @@ run_local_script() {
     fi
 }
 
+# Function to run a script on a specific server
+run_script_on_server() {
+    local script=$1
+    local server=$2
+    echo "Running $script on $server..."
+
+    env_vars=$(while IFS='=' read -r key value; do
+        if [[ -n "$key" && ! "$key" =~ ^# ]]; then
+            key=$(echo "$key" | tr -d '[:space:]')
+            value=$(echo "$value" | tr -d '[:space:]')
+            printf '%s=%q ' "$key" "$value"
+        fi
+    done < "$SCRIPT_DIR/$ENV_FILE")
+
+    if ssh -o StrictHostKeyChecking=no root@"$server" "export $env_vars CURRENT_SERVER=$server; bash -s" < "$SCRIPT_DIR/$script"; then
+        echo "Success: $script completed on $server"
+    else
+        echo "Failure: $script failed on $server"
+        exit 1
+    fi
+}
+
 # Define the ordered list of scripts and their type (local or remote)
 TASKS=(
     "setup_docker.sh:remote"
@@ -102,17 +124,25 @@ TASKS=(
     "nginx-configs/deploy_enable_configs.sh:remote"
     "setup_TLS.sh:remote"
     "clone_repo.sh:remote"
+    # "reset_docker.sh:remote"
+    "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
+    "beckn_setup/setup_gateway.sh:server:$GATEWAY_IP"
+    "beckn_setup/setup_bap.sh:server:$BAP_IP"
+    "beckn_setup/setup_bpp.sh:server:$BPP_IP"
 )
 
 # Execute tasks in sequence
 for task in "${TASKS[@]}"; do
-    IFS=':' read -r script type <<< "$task"
+    IFS=':' read -r script type server <<< "$task"
     case "$type" in
         remote)
             run_script_on_all "$script"
             ;;
         local)
             run_local_script "$script"
+            ;;
+        server)
+            run_script_on_server "$script" "$server"
             ;;
         *)
             echo "Unknown task type: $type for script: $script"
