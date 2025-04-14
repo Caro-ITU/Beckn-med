@@ -54,6 +54,7 @@ for domain in $DOMAINS; do
 done
 
 # Run Certbot for the domains
+
 certbot --nginx $CERTBOT_DOMAINS --non-interactive --agree-tos --email "$EMAIL"
 
 # Test and restart Nginx
