@@ -1,62 +1,41 @@
 #!/bin/bash
 
-# Path to SSH key (customize if different)
-SSH_KEY="$HOME/.ssh/id_rsa"
+# Exit on any error
+set -e
 
-# Check if SSH key exists
-if [ ! -f "$SSH_KEY" ]; then
-    echo "Error: SSH key $SSH_KEY not found"
-    exit 1
-fi
-
-
-# Check if .env file exists
-if [ ! -f ../.env ]; then
-    echo "Error: .env file not found in /scripts/"
-    exit 1
-fi
-
-# Read variables from .env
-source ../.env
-
-# Check required variables
-if [ -z "$DOMAIN_NAME" ] || [ -z "$REGISTRY_IP" ] || [ -z "$GATEWAY_IP" ] || [ -z "$BAP_IP" ] || [ -z "$BPP_IP" ]; then
-    echo "Error: Missing required variables (DOMAIN_NAME, REGISTRY_IP, GATEWAY_IP, BAP_IP, BPP_IP) in /scripts/.env"
-    exit 1
-fi
-
-# SSH user
-SSH_USER="root"
-
-# Nginx paths on remote servers
+# Nginx paths on remote server
 NGINX_AVAILABLE="/etc/nginx/sites-available"
 NGINX_ENABLED="/etc/nginx/sites-enabled"
 
-# List of config files and their corresponding IPs
-CONFIG_FILES=(
-    "onix-registry.${DOMAIN_NAME}:${REGISTRY_IP}"
-    "onix-gateway.${DOMAIN_NAME}:${GATEWAY_IP}"
-    "onix-bap.${DOMAIN_NAME}:${BAP_IP}"
-    "onix-bap-client.${DOMAIN_NAME}:${BAP_IP}"
-    "onix-bpp.${DOMAIN_NAME}:${BPP_IP}"
-    "onix-bpp-client.${DOMAIN_NAME}:${BPP_IP}"
-)
+# Determine config files to enable based on server
+case "$CURRENT_SERVER" in
+    "$REGISTRY_IP")
+        CONFIG_FILES=("onix-registry.$DOMAIN_NAME")
+        ;;
+    "$GATEWAY_IP")
+        CONFIG_FILES=("onix-gateway.$DOMAIN_NAME")
+        ;;
+    "$BAP_IP")
+        CONFIG_FILES=("onix-bap.$DOMAIN_NAME" "onix-bap-client.$DOMAIN_NAME")
+        ;;
+    "$BPP_IP")
+        CONFIG_FILES=("onix-bpp.$DOMAIN_NAME" "onix-bpp-client.$DOMAIN_NAME")
+        ;;
+    *)
+        echo "Error: Unknown server $CURRENT_SERVER, cannot determine config files"
+        exit 1
+        ;;
+esac
 
-echo "Enabling configuration files on servers..."
-
-for entry in "${CONFIG_FILES[@]}"; do
-    # Split entry into config_file and server_ip
-    config_file="${entry%%:*}"
-    server_ip="${entry##*:}"
-
-    echo "Enabling $config_file on $server_ip..."
-    ssh "${SSH_USER}@${server_ip}" "sudo ln -sf $NGINX_AVAILABLE/$config_file $NGINX_ENABLED/$config_file"
-    if [ $? -ne 0 ]; then
-        echo "Error: Failed to enable $config_file on $server_ip"
-        continue
+# Enable config files by creating symbolic links
+for config_file in "${CONFIG_FILES[@]}"; do
+    if [ ! -f "$NGINX_AVAILABLE/$config_file" ]; then
+        echo "Error: Config file $NGINX_AVAILABLE/$config_file not found"
+        exit 1
     fi
 
-    echo "$config_file enabled on $server_ip"
+    echo "Enabling $config_file..."
+    ln -sf "$NGINX_AVAILABLE/$config_file" "$NGINX_ENABLED/$config_file"
 done
 
-echo "Config file enabling completed."
+echo "Config files enabled successfully."

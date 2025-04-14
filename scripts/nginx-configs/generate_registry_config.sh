@@ -1,22 +1,12 @@
 #!/bin/bash
 
-# Check if .env file exists
-if [ ! -f ../.env ]; then
-    echo "Error: .env file not found in /scripts/"
-    exit 1
-fi
+set -e
 
-# Read DOMAIN_NAME from .env
-DOMAIN_NAME=$(grep '^DOMAIN_NAME=' ../.env | cut -d '=' -f2)
-
-# Check if DOMAIN_NAME is set
-if [ -z "$DOMAIN_NAME" ]; then
-    echo "Error: DOMAIN_NAME not found in /scripts/.env file"
-    exit 1
-fi
+# Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
+OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Define output file
-OUTPUT_FILE="onix-registry.${DOMAIN_NAME}"
+OUTPUT_FILE="$OUTPUT_DIR/onix-registry.${DOMAIN_NAME}"
 
 # Generate configuration
 cat > "$OUTPUT_FILE" << EOF

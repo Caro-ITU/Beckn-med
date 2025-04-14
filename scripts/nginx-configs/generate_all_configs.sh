@@ -1,57 +1,27 @@
 #!/bin/bash
 
-# Check if .env file exists
-if [ ! -f ../.env ]; then
-    echo "Error: .env file not found in /scripts/"
-    exit 1
-fi
+# Exit on any error
+set -e
 
-# Read DOMAIN_NAME from .env
-DOMAIN_NAME=$(grep '^DOMAIN_NAME=' ../.env | cut -d '=' -f2)
+# Get the directory of this script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Check if DOMAIN_NAME is set
-if [ -z "$DOMAIN_NAME" ]; then
-    echo "Error: DOMAIN_NAME not found in /scripts/.env file"
-    exit 1
-fi
+# List of configuration scripts (relative to nginx-configs/)
+SCRIPTS=(
+    "generate_bap_config.sh"
+    "generate_bap_client_config.sh"
+    "generate_bpp_config.sh"
+    "generate_bpp_client_config.sh"
+    "generate_gateway_config.sh"
+    "generate_registry_config.sh"
+)
 
-# Run individual scripts
-echo "Generating configurations for DOMAIN_NAME=$DOMAIN_NAME..."
+echo "Generating configurations for DOMAIN_NAME=$DOMAIN_NAME in $CONFIG_DIR..."
 
-./generate_bap_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating BAP config"
-    exit 1
-fi
+# Run each script, executing them from their absolute path
+for script in "${SCRIPTS[@]}"; do
+    echo "Running $script..."
+    bash "$SCRIPT_DIR/$script"
+done
 
-./generate_bap_client_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating BAP client config"
-    exit 1
-fi
-
-./generate_bpp_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating BPP config"
-    exit 1
-fi
-
-./generate_bpp_client_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating BPP client config"
-    exit 1
-fi
-
-./generate_gateway_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating gateway config"
-    exit 1
-fi
-
-./generate_registry_config.sh
-if [ $? -ne 0 ]; then
-    echo "Error generating registry config"
-    exit 1
-fi
-
-echo "All configurations generated successfully."
+echo "All configurations generated successfully in $CONFIG_DIR."
