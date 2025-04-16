@@ -70,7 +70,7 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-gateway2.foodeez.dk;
+    server_name onix-gateway2.${DOMAIN_NAME};
     return 301 https://\$host\$request_uri;
 }
 EOF
