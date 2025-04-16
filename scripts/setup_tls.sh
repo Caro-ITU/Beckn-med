@@ -15,7 +15,7 @@ case "$CURRENT_SERVER" in
         DOMAINS="onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
         ;;
     "$BPP_IP")
-        DOMAINS="onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME"
+        DOMAINS="onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME onix-bpp2-ps.$DOMAIN_NAME"
         ;;
     *)
         echo "Error: Unknown server $CURRENT_SERVER, cannot determine domains"

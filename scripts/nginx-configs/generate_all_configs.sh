@@ -12,6 +12,7 @@ SCRIPTS=(
     "generate_bap_client_config.sh"
     "generate_bpp_config.sh"
     "generate_bpp_client_config.sh"
+    "generate_bpp_webhook_config.sh"
     "generate_gateway_config.sh"
     "generate_registry_config.sh"
 )

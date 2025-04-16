@@ -19,7 +19,7 @@ case "$CURRENT_SERVER" in
         CONFIG_FILES=("onix-bap2.$DOMAIN_NAME" "onix-bap2-client.$DOMAIN_NAME")
         ;;
     "$BPP_IP")
-        CONFIG_FILES=("onix-bpp2.$DOMAIN_NAME" "onix-bpp2-client.$DOMAIN_NAME")
+        CONFIG_FILES=("onix-bpp2.$DOMAIN_NAME" "onix-bpp2-client.$DOMAIN_NAME" "onix-bpp2-ps.$DOMAIN_NAME")
         ;;
     *)
         echo "Error: Unknown server $CURRENT_SERVER, cannot determine config files"
