@@ -6,16 +6,16 @@ set -e
 # Determine domains to configure based on server
 case "$CURRENT_SERVER" in
     "$REGISTRY_IP")
-        DOMAINS="onix-registry.$DOMAIN_NAME"
+        DOMAINS="onix-registry2.$DOMAIN_NAME"
         ;;
     "$GATEWAY_IP")
-        DOMAINS="onix-gateway.$DOMAIN_NAME"
+        DOMAINS="onix-gateway2.$DOMAIN_NAME"
         ;;
     "$BAP_IP")
-        DOMAINS="onix-bap.$DOMAIN_NAME onix-bap-client.$DOMAIN_NAME"
+        DOMAINS="onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
         ;;
     "$BPP_IP")
-        DOMAINS="onix-bpp.$DOMAIN_NAME onix-bpp-client.$DOMAIN_NAME"
+        DOMAINS="onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME"
         ;;
     *)
         echo "Error: Unknown server $CURRENT_SERVER, cannot determine domains"
@@ -48,14 +48,15 @@ install_snap certbot
 # Create symbolic link for certbot
 ln -sf /snap/bin/certbot /usr/bin/certbot
 
-CERTBOT_DOMAINS=""
+# Run Certbot for each domain individually
 for domain in $DOMAINS; do
-    CERTBOT_DOMAINS="$CERTBOT_DOMAINS -d $domain"
-done
+    echo "Requesting certificate for $domain..."
+    certbot --nginx -d "$domain" --non-interactive --agree-tos --email "$EMAIL" || {
+        echo "Warning: Failed to obtain certificate for $domain, continuing with other domains"
+        continue
+    }
+done 
 
-# Run Certbot for the domains
-
-certbot --nginx $CERTBOT_DOMAINS --non-interactive --agree-tos --email "$EMAIL"
 
 # Test and restart Nginx
 nginx -t || echo "Nginx config test failed, proceeding anyway"

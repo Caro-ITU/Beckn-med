@@ -6,14 +6,14 @@ set -e
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Define output file
-OUTPUT_FILE="$OUTPUT_DIR/onix-bpp-client.${DOMAIN_NAME}"
+OUTPUT_FILE="$OUTPUT_DIR/onix-bpp2-client.${DOMAIN_NAME}"
 
 # Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-bpp-client.${DOMAIN_NAME};
+    server_name onix-bpp2-client.${DOMAIN_NAME};
     location / {
         # This for Host, Client and Forwarded For
         proxy_set_header Host \$http_host;

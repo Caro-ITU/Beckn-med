@@ -125,10 +125,11 @@ TASKS=(
     "setup_TLS.sh:remote"
     "clone_repo.sh:remote"
     # "reset_docker.sh:remote"
-    "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
-    "beckn_setup/setup_gateway.sh:server:$GATEWAY_IP"
-    "beckn_setup/setup_bap.sh:server:$BAP_IP"
-    "beckn_setup/setup_bpp.sh:server:$BPP_IP"
+    # "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
+    # "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
+    # "beckn_setup/setup_gateway.sh:server:$GATEWAY_IP"
+    # "beckn_setup/setup_bap.sh:server:$BAP_IP"
+    # "beckn_setup/setup_bpp.sh:server:$BPP_IP"
 )
 
 # Execute tasks in sequence

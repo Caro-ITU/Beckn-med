@@ -10,16 +10,16 @@ NGINX_ENABLED="/etc/nginx/sites-enabled"
 # Determine config files to enable based on server
 case "$CURRENT_SERVER" in
     "$REGISTRY_IP")
-        CONFIG_FILES=("onix-registry.$DOMAIN_NAME")
+        CONFIG_FILES=("onix-registry2.$DOMAIN_NAME")
         ;;
     "$GATEWAY_IP")
-        CONFIG_FILES=("onix-gateway.$DOMAIN_NAME")
+        CONFIG_FILES=("onix-gateway2.$DOMAIN_NAME")
         ;;
     "$BAP_IP")
-        CONFIG_FILES=("onix-bap.$DOMAIN_NAME" "onix-bap-client.$DOMAIN_NAME")
+        CONFIG_FILES=("onix-bap2.$DOMAIN_NAME" "onix-bap2-client.$DOMAIN_NAME")
         ;;
     "$BPP_IP")
-        CONFIG_FILES=("onix-bpp.$DOMAIN_NAME" "onix-bpp-client.$DOMAIN_NAME")
+        CONFIG_FILES=("onix-bpp2.$DOMAIN_NAME" "onix-bpp2-client.$DOMAIN_NAME")
         ;;
     *)
         echo "Error: Unknown server $CURRENT_SERVER, cannot determine config files"

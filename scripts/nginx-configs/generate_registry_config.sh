@@ -6,12 +6,12 @@ set -e
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Define output file
-OUTPUT_FILE="$OUTPUT_DIR/onix-registry.${DOMAIN_NAME}"
+OUTPUT_FILE="$OUTPUT_DIR/onix-registry2.${DOMAIN_NAME}"
 
 # Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
-    server_name onix-registry.${DOMAIN_NAME};
+    server_name onix-registry2.${DOMAIN_NAME};
     
     underscores_in_headers on;
     gzip on;
@@ -64,6 +64,12 @@ server {
             return 204;
         }
     }
+}
+server {
+    listen 80;
+    listen [::]:80;
+    server_name onix-registry.foodeez.dk;
+    return 301 https://\$host\$request_uri;
 }
 EOF
 

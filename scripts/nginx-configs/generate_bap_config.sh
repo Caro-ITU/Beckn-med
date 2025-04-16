@@ -6,13 +6,13 @@ set -e
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
-OUTPUT_FILE="$OUTPUT_DIR/onix-bap.$DOMAIN_NAME"
+OUTPUT_FILE="$OUTPUT_DIR/onix-bap2.$DOMAIN_NAME"
 
 cat > "$OUTPUT_FILE" << EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-bap.$DOMAIN_NAME;
+    server_name onix-bap2.$DOMAIN_NAME;
     location / {
         proxy_set_header Host \$http_host;
         proxy_set_header X-Real-IP \$remote_addr;

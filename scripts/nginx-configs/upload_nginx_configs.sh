@@ -20,10 +20,10 @@ SERVERS=(
 
 # Corresponding config files for each server
 CONFIG_FILES=(
-    "onix-registry.$DOMAIN_NAME"
-    "onix-gateway.$DOMAIN_NAME"
-    "onix-bap.$DOMAIN_NAME onix-bap-client.$DOMAIN_NAME"
-    "onix-bpp.$DOMAIN_NAME onix-bpp-client.$DOMAIN_NAME"
+    "onix-registry2.$DOMAIN_NAME"
+    "onix-gateway2.$DOMAIN_NAME"
+    "onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
+    "onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME"
 )
 
 # Iterate through each server and copy the respective config files
@@ -37,7 +37,7 @@ for i in "${!SERVERS[@]}"; do
     for config_file in $config_files; do
         # Define the local file path (absolute path on the local machine)
         local_file="$SCRIPT_DIR/$config_file"
-        
+    
         if [ ! -f "$local_file" ]; then
             echo "Error: Missing config file $local_file"
             exit 1
