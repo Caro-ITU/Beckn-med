@@ -26,9 +26,8 @@ $WEBHOOK_URL
 $REGISTRY_URL/subscribers
 $REGISTRY_USERNAME
 $REGISTRY_PASSWORD
-Y
-retail_1.1.0
-$LAYER2_CONFIG
+N
+
 EOF
 
 echo "✅ BPP setup complete for $BPP_SETUP_ID"
