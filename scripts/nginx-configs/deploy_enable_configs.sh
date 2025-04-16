@@ -36,6 +36,8 @@ for config_file in "${CONFIG_FILES[@]}"; do
 
     echo "Enabling $config_file..."
     ln -sf "$NGINX_AVAILABLE/$config_file" "$NGINX_ENABLED/$config_file"
+    sudo nginx -t
+    sudo systemctl restart nginx
 done
 
 echo "Config files enabled successfully."
