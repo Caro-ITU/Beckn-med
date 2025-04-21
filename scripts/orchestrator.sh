@@ -125,12 +125,14 @@ TASKS=(
     "setup_TLS.sh:remote"
     "clone_repo.sh:remote"
     "start_webhook.sh:server:$BPP_IP"
-    "reset_docker.sh:remote"
+    # "reset_docker.sh:remote"
     "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
     "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
     "beckn_setup/setup_gateway.sh:server:$GATEWAY_IP"
     "beckn_setup/setup_bap.sh:server:$BAP_IP"
     "beckn_setup/setup_bpp.sh:server:$BPP_IP"
+    "beckn_setup/bap_layer2.sh:server:$BAP_IP"
+    "beckn_setup/bpp_layer2.sh:server:$BPP_IP"
 )
 
 # Execute tasks in sequence

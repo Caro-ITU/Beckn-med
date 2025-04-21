@@ -23,7 +23,7 @@ CONFIG_FILES=(
     "onix-registry2.$DOMAIN_NAME"
     "onix-gateway2.$DOMAIN_NAME"
     "onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
-    "onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME"
+    "onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME onix-bpp2-ps.$DOMAIN_NAME"
 )
 
 # Iterate through each server and copy the respective config files
