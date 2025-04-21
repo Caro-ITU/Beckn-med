@@ -8,16 +8,15 @@ In an attempt to create a fully functional production environment, we felt that 
 To make it accessible for as many as possible, the scripts are simple Bash scripts, utilizing SSH for server access and remote execution to install and set up dependencies, such as Docker, NGINX + configuration files, Certbot, requesting TLS certificates and finally the `beckn-onix.sh` script with pre filled options set. 
 
 ## Prerequisites
-
 ### Servers with SSH access
 Following the server structure of the Beckn-Onix specification, 4 servers need to be set up with full SSH access from your local PC. OS and exact server requirements can be found here: https://developers.becknprotocol.io/docs/beckn-onix . In terms of size on each server, this is what we found out worked the best, anything lower is prone to crash due to memory exceeding the limit:
 * Gateway and registry: 2GB RAM and 1 Intel vCPU.
 * BAP and BPP: 8GB RAM and 2 Intel vCPU.
 
-It is advisable to have an SSH config configured for easy access to the servers, especially if you ssh-key has a password to bypass this when running the scripts. Example configuration can be found under: [ssh example config](LINK_HERE)
+**Note:** It is advisable to have an SSH-agent configured for easy access to the servers, especially if your ssh-key has a password to bypass this when running the scripts.
 
 ### Domain name + DNS records for each server
-
+**TODO:** explain DNS configurations
 
 ### Local .env file
 Create a .env file in the root directory of the beckn-IaC repository.
@@ -48,9 +47,9 @@ TERM=xterm
 When the prerequisites have been filled out, the `./orchestrator` should be able to complete the remaining setup steps for you and set up a fully functional production environment, utilizing the Beckn protocol.
 
 Due to Beckn specifications and their setup, a few things have to be done manually after the orchestrator script has been run. 
-[Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
-[Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain) 
-Restart gateway after creating the network domain in registry
+1. [Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
+2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain) 
+3. Restart gateway after creating the network domain in registry
 ```bash
 ssh root@gateway "docker restart gateway"
 ```
