@@ -1,57 +1,96 @@
-# Beckn Onix: Infrastucture as Code (IaC)
+# Beckn ONIX: Infrastucture as Code (IaC)
 
-This repository is made, with the sole purpose of setting up a full production environment for the [Beckn-Onix project](https://github.com/beckn/beckn-onix). 
+This repository provides an automated way to **deploy a full production-ready Beckn network** using [Beckn-ONIX](https://github.com/beckn/beckn-onix). 
 
-In an attempt to create a fully functional production environment, we felt that the setup_walkthrough was missing a lot of steps, that could make the setup much quicker. These missing gaps, is what we are trying to fill out with the help of some setup scripts.
+The official setup guide for ONIX is a great foundation, but it leaves room for automation and clarity in a real-world production setup. This project fills in those gaps with tested setup scripts, enabling faster and more reliable deployments.
 
-## How does it work?
-To make it accessible for as many as possible, the scripts are simple Bash scripts, utilizing SSH for server access and remote execution to install and set up dependencies, such as Docker, NGINX + configuration files, Certbot, requesting TLS certificates and finally the `beckn-onix.sh` script with pre filled options set. 
+## What does it do?
+This repo contains Bash-based orchestration scripts that:
+
+* Set up the required infrastructure (Registry, Gateway, BAP, BPP)
+* Install dependencies: Docker, NGINX, Certbot, etc.
+* Configure domains, TLS certificates, and reverse proxies
+* Automatically execute the ONIX install script with pre-filled inputs
+* Produce a ready-to-use Beckn production network
+
+All setup is done **remotely over SSH**, so you can launch everything from your local machine.
 
 ## Prerequisites
-### Servers with SSH access
-Following the server structure of the Beckn-Onix specification, 4 servers need to be set up with full SSH access from your local PC. OS and exact server requirements can be found here: https://developers.becknprotocol.io/docs/beckn-onix . In terms of size on each server, this is what we found out worked the best, anything lower is prone to crash due to memory exceeding the limit:
-* Gateway and registry: 2GB RAM and 1 Intel vCPU.
-* BAP and BPP: 8GB RAM and 2 Intel vCPU.
+### 1. Servers with SSH access
+You’ll need four servers (VMs) accessible via SSH from your local machine. Each will host one of the core Beckn components.
+| Component         | Recommended spec |
+|-----------        |------------------|
+|Registry + Gateway |1 vCPU, 2GB RAM   |
+|BAP + BPP          |2 vCPU, 8GB RAM   |
 
-**Note:** It is advisable to have an SSH-agent configured for easy access to the servers, especially if your ssh-key has a password to bypass this when running the scripts.
+**Note:** Lower specs may cause crashes due to memory constraints.
+
+Ensure your local machine has an SSH agent running and configured, especially if your SSH key is password-protected.
 
 ### Domain name + DNS records for each server
-**TODO:** explain DNS configurations
+Each component requires a unique subdomain (e.g., onix-registry.domain.com, onix-bap.domain.com, etc.)
 
-### Local .env file
-Create a .env file in the root directory of the beckn-IaC repository.
+**TODO:** explain DNS configurations in detail
+
+### .env Configuration
+In the root of the repository, create a .env file to define all your infrastructure variables.
 
 **Example .env file:**
 ```bash
 REGISTRY_IP=165.22.73.161
 REGISTRY_URL=https://onix-registry.domain_name.com
+
 GATEWAY_IP=46.101.159.195
 GATEWAY_URL=https://onix-gateway2.domain_name.com
+
 BAP_SETUP_ID=onix-bap.domain_name.com
 BAP_IP=159.65.127.214
 BAP_URL=https://onix-bap.domain_name.com
 BAP_CLIENT_URL=https://onix-bap-client.domain_name.com
+
 BPP_SETUP_ID=onix-bpp.domain_name.com
 BPP_IP=142.93.101.242
 BPP_URL=https://onix-bpp.domain_name.com
 BPP_CLIENT_URL=https://onix-bpp-client.domain_name.com
+
 DOMAIN_NAME=domain_name.com
 EMAIL=example@gmail.com
 WEBHOOK_URL=https://onix-bpp-ps.domain_name.com/webhook
+
 REGISTRY_USERNAME=root
 REGISTRY_PASSWORD=root
+
 LAYER2_CONFIG=https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
+
 TERM=xterm
 ```
-## Running the script
-When the prerequisites have been filled out, the `./orchestrator` should be able to complete the remaining setup steps for you and set up a fully functional production environment, utilizing the Beckn protocol.
+## Running the setup
+Once the .env file and servers are ready, change directory to the `scripts/` folder and simply run:
+```bash
+./orchestrator
+```
 
-Due to Beckn specifications and their setup, a few things have to be done manually after the orchestrator script has been run. 
+The script will handle:
+* SSH-ing into each server
+* Installing dependencies
+* Running the ONIX setup for each component with your pre-filled config
+
+## Post-Install Manual Steps
+
+Due to Beckn specifications and their setup, a few things have to be done manually after the orchestrator script has been run:
+
 1. [Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
 2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain) 
-3. Restart gateway after creating the network domain in registry
+3. Restart gateway to reflect the domain update
 ```bash
 ssh root@gateway "docker restart gateway"
 ```
 
-Now everything should be ready to go and you can send requests via the postman collections specified for your domain to test everything out in a production environment.
+## Verifying the setup
+You can now test your network by:
+* Using Beckn Postman collections
+* Sending real requests to your deployed domains
+* Monitoring logs with:
+```bash
+docker logs -f bap-client
+```
