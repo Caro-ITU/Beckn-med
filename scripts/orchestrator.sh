@@ -29,7 +29,6 @@ for var in "${REQUIRED_IPS[@]}"; do
     fi
 done
 
-# Define the list of servers
 SERVERS=(
     "$REGISTRY_IP"
     "$GATEWAY_IP"
@@ -128,7 +127,6 @@ TASKS=(
     "beckn_setup/bpp_layer2.sh:server:$BPP_IP"
 )
 
-# Execute tasks in sequence
 for task in "${TASKS[@]}"; do
     IFS=':' read -r script type server <<< "$task"
     case "$type" in
