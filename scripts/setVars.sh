@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Function to get user input
 get_user_input() {
     local prompt="$1"
     read -p "$prompt" input
     echo "$input" | tr -d '[:space:]'  # Trim whitespace
 }
 
-# Function to create .env file
 create_env_file() {
     echo "Please provide the following configuration details:"
 
@@ -49,5 +47,4 @@ EMAIL=$EMAIL"
     fi
 }
 
-# Main execution
 create_env_file

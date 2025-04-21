@@ -5,10 +5,8 @@ set -e
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Define output file (corrected to onix-bap-client)
 OUTPUT_FILE="$SCRIPT_DIR/onix-bap2-client.${DOMAIN_NAME}"
 
-# Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
     listen 80;

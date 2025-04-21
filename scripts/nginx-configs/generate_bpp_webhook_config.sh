@@ -4,13 +4,10 @@ set -e
 
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Define variables
 DOMAIN="onix-bpp2-ps.${DOMAIN_NAME}"
 PROXY_PASS="http://localhost:3009"
 OUTPUT_FILE="$OUTPUT_DIR/$DOMAIN"
 
-# Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
     server_name $DOMAIN;

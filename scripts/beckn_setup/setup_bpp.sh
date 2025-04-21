@@ -2,7 +2,7 @@
 
 set -e
 
-REQUIRED_VARS=("BPP_SETUP_ID" "BPP_URL" "WEBHOOK_URL" "REGISTRY_URL" "REGISTRY_USERNAME" "REGISTRY_PASSWORD" "LAYER2_CONFIG" )
+REQUIRED_VARS=("BPP_SETUP_ID" "BPP_URL" "WEBHOOK_URL" "REGISTRY_URL" "REGISTRY_USERNAME" "REGISTRY_PASSWORD" )
 for var in "${REQUIRED_VARS[@]}"; do
     if [ -z "${!var}" ]; then
         echo "Error: $var is not set"
@@ -10,13 +10,9 @@ for var in "${REQUIRED_VARS[@]}"; do
     fi
 done
 
-cd beckn-onix/install || { echo "ONIX repo not found at beckn-onix/install"; exit 1; }
-sudo usermod -aG docker $USER
+cd beckn-onix/install || { echo "beckn-onix/ repository not found on the BPP server"; exit 1; }
 echo "🚀 Starting BPP setup for $BPP_SETUP_ID at $BPP_URL"
 
-# --------------------------
-# Run beckn-onix.sh with inputs
-# --------------------------
 bash beckn-onix.sh <<EOF
 1
 3

@@ -4,11 +4,9 @@ set -e
 
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Define output file
 OUTPUT_FILE="$OUTPUT_DIR/onix-registry2.${DOMAIN_NAME}"
 
-# Generate configuration
+
 cat > "$OUTPUT_FILE" << EOF
 server {
     server_name onix-registry2.${DOMAIN_NAME};
@@ -74,6 +72,3 @@ server {
 EOF
 
 echo "Generated $OUTPUT_FILE"
-
-
-

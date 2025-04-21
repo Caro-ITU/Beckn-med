@@ -1,16 +1,10 @@
 #!/bin/bash
 
-# Exit on any error
 set -e
 
-# Nginx path on remote server
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NGINX_AVAILABLE="/etc/nginx/sites-available"
 
-# Define local directory where generated configs are stored
-# Get the directory of this script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# List of servers and config files mapping (using indexed arrays)
 SERVERS=(
     "$REGISTRY_IP"
     "$GATEWAY_IP"
@@ -18,7 +12,6 @@ SERVERS=(
     "$BPP_IP"
 )
 
-# Corresponding config files for each server
 CONFIG_FILES=(
     "onix-registry2.$DOMAIN_NAME"
     "onix-gateway2.$DOMAIN_NAME"
@@ -32,10 +25,8 @@ for i in "${!SERVERS[@]}"; do
     config_files="${CONFIG_FILES[$i]}"
     
     echo "Uploading config files to $server..."
-    
-    # Loop through config files for the current server
+
     for config_file in $config_files; do
-        # Define the local file path (absolute path on the local machine)
         local_file="$SCRIPT_DIR/$config_file"
     
         if [ ! -f "$local_file" ]; then
@@ -45,7 +36,7 @@ for i in "${!SERVERS[@]}"; do
         
         echo "Copying $local_file to $server:$NGINX_AVAILABLE/"
         scp "$local_file" root@"$server":"$NGINX_AVAILABLE/"
-        echo "Deployed $config_file to $server:$NGINX_AVAILABLE/"
+        echo "Successfully uploaded $config_file to $server:$NGINX_AVAILABLE/"
     done
 done
 

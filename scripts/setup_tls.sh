@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Exit on any error
 set -e
 
 # Determine domains to configure based on server
@@ -23,7 +22,6 @@ case "$CURRENT_SERVER" in
         ;;
 esac
 
-# Install and configure Certbot with retry logic
 install_snap() {
     local package=$1
     local retries=5
@@ -44,11 +42,8 @@ install_snap() {
 snap install core
 snap refresh core
 install_snap certbot
-
-# Create symbolic link for certbot
 ln -sf /snap/bin/certbot /usr/bin/certbot
 
-# Run Certbot for each domain individually
 for domain in $DOMAINS; do
     echo "Requesting certificate for $domain..."
     certbot --nginx -d "$domain" --non-interactive --agree-tos --email "$EMAIL" || {
@@ -58,7 +53,6 @@ for domain in $DOMAINS; do
 done 
 
 
-# Test and restart Nginx
 nginx -t || echo "Nginx config test failed, proceeding anyway"
 systemctl restart nginx
 

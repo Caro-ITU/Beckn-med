@@ -1,15 +1,11 @@
 #!/bin/bash
 
-# Exit on any error
 set -e
 
-# Define .env file path (relative to script’s directory)
 ENV_FILE=".env"
 
-# Get the directory of the orchestrator script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Check if .env file exists and is readable
 if [ ! -f "$SCRIPT_DIR/$ENV_FILE" ] || [ ! -r "$SCRIPT_DIR/$ENV_FILE" ]; then
     echo "Error: $ENV_FILE not found or not readable in $SCRIPT_DIR"
     exit 1
@@ -41,7 +37,6 @@ SERVERS=(
     "$BPP_IP"
 )
 
-# Function to run a script on all servers in parallel and wait for completion
 run_script_on_all() {
     local script=$1
     echo "Running $script on all servers..."
@@ -81,7 +76,6 @@ run_script_on_all() {
     echo "$script completed successfully on all servers."
 }
 
-# Function to run a script locally
 run_local_script() {
     local script=$1
     echo "Running $script locally..."
@@ -93,7 +87,6 @@ run_local_script() {
     fi
 }
 
-# Function to run a script on a specific server
 run_script_on_server() {
     local script=$1
     local server=$2
@@ -115,7 +108,7 @@ run_script_on_server() {
     fi
 }
 
-# Define the ordered list of scripts and their type (local or remote)
+# Define the ordered list of scripts and their type (local, remote or server)
 TASKS=(
     "setup_docker.sh:remote"
     "install_nginx.sh:remote"

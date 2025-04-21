@@ -52,7 +52,7 @@ sleep 2
 # Verify the process is running
 if pgrep -f "node" >/dev/null; then
     echo "Application started successfully. Logs are in output.log."
-    echo "To check the application, run: curl http://localhost:3009"
+    echo "To check the application, run: curl http://localhost:3009/health"
 else
     echo "Error: Application failed to start. Check output.log for details."
     cat output.log

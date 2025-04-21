@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Exit on any error
 set -e
 
 # Install Docker on the server
+echo "Installing Docker..."
 apt-get update
 apt-get install -y ca-certificates curl
 install -m 0755 -d /etc/apt/keyrings

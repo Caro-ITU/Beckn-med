@@ -23,4 +23,5 @@ server {
     }
 }
 EOF
+
 echo "Generated $OUTPUT_FILE"

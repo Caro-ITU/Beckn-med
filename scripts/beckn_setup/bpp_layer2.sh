@@ -10,12 +10,9 @@ for var in "${REQUIRED_VARS[@]}"; do
     fi
 done
 
-cd beckn-onix/layer2 || { echo "ONIX repo not found at beckn-onix/layer2"; exit 1; }
+cd beckn-onix/layer2 || { echo "beckn-onix/ repository not found on the BPP server"; exit 1; }
 echo "Configuring layer2 for $BPP_SETUP_ID at $BPP_URL"
 
-# --------------------------
-# Run beckn-onix.sh with inputs
-# --------------------------
 bash download_layer_2_config_bpp.sh <<EOF
 $LAYER2_CONFIG
 EOF

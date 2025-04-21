@@ -10,8 +10,7 @@ for var in "${REQUIRED_VARS[@]}"; do
     fi
 done
 
-cd beckn-onix/install || { echo "ONIX repo not found at beckn-onix/install"; exit 1; }
-sudo usermod -aG docker $USER
+cd beckn-onix/install || { echo "beckn-onix/ repository not found on the registry server"; exit 1; }
 
 bash beckn-onix.sh <<EOF
 2
