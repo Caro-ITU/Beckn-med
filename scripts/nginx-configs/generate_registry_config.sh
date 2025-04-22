@@ -1,36 +1,15 @@
 #!/bin/bash
 
-# Check if .env file exists
-if [ ! -f ../.env ]; then
-    echo "Error: .env file not found in /scripts/"
-    exit 1
-fi
+set -e
 
-# Read DOMAIN_NAME from .env
-DOMAIN_NAME=$(grep '^DOMAIN_NAME=' ../.env | cut -d '=' -f2)
+# Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
+OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT_FILE="$OUTPUT_DIR/$REGISTRY_SUBDOMAIN.$DOMAIN_NAME"
 
-# Check if DOMAIN_NAME is set
-if [ -z "$DOMAIN_NAME" ]; then
-    echo "Error: DOMAIN_NAME not found in /scripts/.env file"
-    exit 1
-fi
 
-# Define output file
-OUTPUT_FILE="onix-registry.${DOMAIN_NAME}"
-
-# Generate configuration
 cat > "$OUTPUT_FILE" << EOF
 server {
-    listen 80;
-    listen [::]:80;
-    server_name onix-registry.${DOMAIN_NAME};
-    return 301 https://\$host\$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name onix-registry.${DOMAIN_NAME};
+    server_name $REGISTRY_SUBDOMAIN.$DOMAIN_NAME;
     
     underscores_in_headers on;
     gzip on;
@@ -42,18 +21,14 @@ server {
     gzip_http_version 1.1;
     gzip_min_length 256;
     gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss application/javascript text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon font/woff font/woff2 application/octet-stream font/ttf;
-    
-    ssl_certificate /etc/letsencrypt/live/onix-registry.${DOMAIN_NAME}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/onix-registry.${DOMAIN_NAME}/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
     
     access_log /var/log/nginx/app_beckn_registry_access.log;
     error_log /var/log/nginx/app_beckn_registry_error.log debug;
     client_max_body_size 10M;
     
     location / {
-        if (\$uri ~* "\.(jpg|jpeg|png|gif|ico|ttf|eot|svg|woff|woff2|css|js)\$") {
+        if (\$uri ~* "\.(jpg|jpeg|png|gif|ico|ttf|eot|svg|woff|woff2|css|js)$") {
             add_header 'Cache-Control' 'no-cache';
         }
         
@@ -87,6 +62,12 @@ server {
             return 204;
         }
     }
+}
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $REGISTRY_SUBDOMAIN.$DOMAIN_NAME;
+    return 301 https://\$host\$request_uri;
 }
 EOF
 

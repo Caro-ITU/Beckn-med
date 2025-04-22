@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Function to get user input
 get_user_input() {
     local prompt="$1"
     read -p "$prompt" input
     echo "$input" | tr -d '[:space:]'  # Trim whitespace
 }
 
-# Function to create .env file
 create_env_file() {
     echo "Please provide the following configuration details:"
 
@@ -17,6 +15,7 @@ create_env_file() {
     BAP_IP=$(get_user_input "Enter BAP IP: ")
     BPP_IP=$(get_user_input "Enter BPP IP: ")
     DOMAIN_NAME=$(get_user_input "Enter Domain Name: ")
+    EMAIL=$(get_user_input "Enter your e-mail: ")
 
     # Generate URLs based on domain name
     REGISTRY_URL="https://onix-registry.$DOMAIN_NAME"
@@ -36,7 +35,8 @@ REGISTRY_URL=$REGISTRY_URL
 GATEWAY_URL=$GATEWAY_URL
 BAP_URL=$BAP_URL
 BAP_CLIENT_URL=$BAP_CLIENT_URL
-BPP_URL=$BPP_URL"
+BPP_URL=$BPP_URL
+EMAIL=$EMAIL"
 
     # Write to .env file
     if echo "$env_content" > .env 2>/dev/null; then
@@ -47,5 +47,4 @@ BPP_URL=$BPP_URL"
     fi
 }
 
-# Main execution
 create_env_file
