@@ -27,12 +27,12 @@ You’ll need four servers (VMs) accessible via SSH from your local machine. Eac
 
 Ensure your local machine has an SSH agent running and configured, especially if your SSH key is password-protected.
 
-### Domain name + DNS records for each server
+### 2. Domain name + DNS records for each server
 Each component requires a unique subdomain (e.g., onix-registry.domain.com, onix-bap.domain.com, etc.)
 
 **TODO:** explain DNS configurations in detail
 
-### .env Configuration
+### 3. .env Configuration
 In the root of the repository, create a .env file to define all your infrastructure variables. It's a lot of variables to configure, so you can use the `set_vars.sh` as a starting point, and it should configure the most basic `.env` configuration.
 
 **Example .env file:**
@@ -74,7 +74,7 @@ TERM=xterm
 ## Running the setup
 Once the .env file and servers are ready, change directory to the `scripts/` folder and simply run:
 ```bash
-./orchestrator
+./orchestrator.sh
 ```
 
 The script will handle:
