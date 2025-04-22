@@ -88,7 +88,7 @@ Due to Beckn specifications and their setup, a few things have to be done manual
 
 1. [Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
 2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain) 
-3. Restart gateway to reflect the domain update
+3. [Restart gateway to reflect the domain update](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
 ```bash
 ssh root@gateway "docker restart gateway"
 ```
