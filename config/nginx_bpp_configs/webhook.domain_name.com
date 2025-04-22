@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name webhook.foodeez.dk;
+    server_name webhook.domain_name.com;
 
     location / {
         proxy_pass http://127.0.0.1:3009;

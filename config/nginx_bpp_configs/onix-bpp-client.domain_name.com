@@ -1,6 +1,6 @@
 server {
                 # Put the server name as website name <website-name>.
-        server_name onix-bpp.foodeez.dk;
+        server_name onix-bpp-client.domain_name.com;
 
                 location / {
                         # This for Host, Client and Forwarded For
@@ -14,19 +14,20 @@ server {
                         proxy_set_header Connection "upgrade";
 
                         # For Proxy.
-                        proxy_pass "http://127.0.0.1:6002";
+                        proxy_pass "http://127.0.0.1:6001";
                 }
 
 }
 server {
-    if ($host = onix-bpp.foodeez.dk) {
+    if ($host = onix-bpp-client.domain_name.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
         listen 80;
         listen [::]:80;
-        server_name onix-bpp.foodeez.dk;
+        server_name onix-bpp-client.domain_name.com;
     return 404; # managed by Certbot
+
 
 }
