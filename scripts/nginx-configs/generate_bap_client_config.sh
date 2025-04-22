@@ -5,13 +5,13 @@ set -e
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-OUTPUT_FILE="$SCRIPT_DIR/onix-bap2-client.${DOMAIN_NAME}"
+OUTPUT_FILE="$SCRIPT_DIR/$BAP_CLIENT_SUBDOMAIN.$DOMAIN_NAME"
 
 cat > "$OUTPUT_FILE" << EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-bap2-client.${DOMAIN_NAME};
+    server_name $BAP_CLIENT_SUBDOMAIN.$DOMAIN_NAME;
     location / {
         # This for Host, Client and Forwarded For
         proxy_set_header Host \$http_host;

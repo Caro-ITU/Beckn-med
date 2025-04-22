@@ -4,12 +4,12 @@ set -e
 
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_FILE="$OUTPUT_DIR/onix-registry2.${DOMAIN_NAME}"
+OUTPUT_FILE="$OUTPUT_DIR/$REGISTRY_SUBDOMAIN.$DOMAIN_NAME"
 
 
 cat > "$OUTPUT_FILE" << EOF
 server {
-    server_name onix-registry2.${DOMAIN_NAME};
+    server_name $REGISTRY_SUBDOMAIN.$DOMAIN_NAME;
     
     underscores_in_headers on;
     gzip on;
@@ -66,7 +66,7 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-registry2.${DOMAIN_NAME};
+    server_name $REGISTRY_SUBDOMAIN.$DOMAIN_NAME;
     return 301 https://\$host\$request_uri;
 }
 EOF

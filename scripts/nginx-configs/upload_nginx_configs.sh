@@ -13,10 +13,10 @@ SERVERS=(
 )
 
 CONFIG_FILES=(
-    "onix-registry2.$DOMAIN_NAME"
-    "onix-gateway2.$DOMAIN_NAME"
-    "onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
-    "onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME onix-bpp2-ps.$DOMAIN_NAME"
+    "$REGISTRY_SUBDOMAIN.$DOMAIN_NAME"
+    "$GATEWAY_SUBDOMAIN.$DOMAIN_NAME"
+    "$BAP_SUBDOMAIN.$DOMAIN_NAME $BAP_CLIENT_SUBDOMAIN.$DOMAIN_NAME"
+    "$BPP_SUBDOMAIN.$DOMAIN_NAME $BPP_CLIENT_SUBDOMAIN.$DOMAIN_NAME $WEBHOOK_SUBDOMAIN.$DOMAIN_NAME"
 )
 
 # Iterate through each server and copy the respective config files

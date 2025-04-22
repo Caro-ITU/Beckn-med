@@ -11,9 +11,9 @@ cd integration-webhook
 # Step 2: Create .env file
 echo "Creating .env file..."
 cat << EOF > .env
-BPP_ID="onix-bpp2.foodeez.dk" #sample
+BPP_ID="$BPP_SUBDOMAIN.$DOMAIN_NAME"
 BPP_CLIENT_URI="http://127.0.0.1:6001"
-BPP_URI="https://onix-bpp2.foodeez.dk"
+BPP_URI="https://$BPP_SUBDOMAIN.$DOMAIN_NAME"
 PORT=3009
 EOF
 

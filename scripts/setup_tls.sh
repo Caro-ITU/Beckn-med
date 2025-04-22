@@ -5,16 +5,16 @@ set -e
 # Determine domains to configure based on server
 case "$CURRENT_SERVER" in
     "$REGISTRY_IP")
-        DOMAINS="onix-registry2.$DOMAIN_NAME"
+        DOMAINS="$REGISTRY_SUBDOMAIN.$DOMAIN_NAME"
         ;;
     "$GATEWAY_IP")
-        DOMAINS="onix-gateway2.$DOMAIN_NAME"
+        DOMAINS="$GATEWAY_SUBDOMAIN.$DOMAIN_NAME"
         ;;
     "$BAP_IP")
-        DOMAINS="onix-bap2.$DOMAIN_NAME onix-bap2-client.$DOMAIN_NAME"
+        DOMAINS="$BAP_SUBDOMAIN.$DOMAIN_NAME $BAP_CLIENT_SUBDOMAIN.$DOMAIN_NAME"
         ;;
     "$BPP_IP")
-        DOMAINS="onix-bpp2.$DOMAIN_NAME onix-bpp2-client.$DOMAIN_NAME onix-bpp2-ps.$DOMAIN_NAME"
+        DOMAINS="$BPP_SUBDOMAIN.$DOMAIN_NAME $BPP_CLIENT_SUBDOMAIN.$DOMAIN_NAME $WEBHOOK_SUBDOMAIN.$DOMAIN_NAME"
         ;;
     *)
         echo "Error: Unknown server $CURRENT_SERVER, cannot determine domains"

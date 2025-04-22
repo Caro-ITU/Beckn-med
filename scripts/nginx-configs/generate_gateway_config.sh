@@ -4,12 +4,12 @@ set -e
 
 # Define the output directory (nginx-configs/ relative to SCRIPT_DIR)
 OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_FILE="$OUTPUT_DIR/onix-gateway2.${DOMAIN_NAME}"
-ESCAPED_DOMAIN_NAME=$(echo "$DOMAIN_NAME" | sed 's/\./\\./g')
+OUTPUT_FILE="$OUTPUT_DIR/$GATEWAY_SUBDOMAIN.$DOMAIN_NAME"
+ESCAPED_DOMAIN_NAME=$(echo "$GATEWAY_SUBDOMAIN.$DOMAIN_NAME" | sed 's/\./\\./g')
 
 cat > "$OUTPUT_FILE" << EOF
 server {
-    server_name onix-gateway2.${DOMAIN_NAME};
+    server_name $GATEWAY_SUBDOMAIN.$DOMAIN_NAME;
     
     underscores_in_headers on;
     gzip on;
@@ -39,7 +39,7 @@ server {
         proxy_pass "http://localhost:4030/";
         
         set \$cors '';
-        if (\$http_origin ~ '^https?://(localhost|onix\-gateway2\.${ESCAPED_DOMAIN_NAME})') {
+        if (\$http_origin ~ '^https?://(localhost|$ESCAPED_DOMAIN_NAME)') {
             set \$cors 'true';
         }
         add_header 'Access-Control-Allow-Origin' "\$http_origin" always;
@@ -66,7 +66,7 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-gateway2.${DOMAIN_NAME};
+    server_name $GATEWAY_SUBDOMAIN.$DOMAIN_NAME;
     return 301 https://\$host\$request_uri;
 }
 EOF
