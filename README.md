@@ -33,25 +33,31 @@ Each component requires a unique subdomain (e.g., onix-registry.domain.com, onix
 **TODO:** explain DNS configurations in detail
 
 ### .env Configuration
-In the root of the repository, create a .env file to define all your infrastructure variables.
+In the root of the repository, create a .env file to define all your infrastructure variables. It's a lot of variables to configure, so you can use the `set_vars.sh` as a starting point, and it should configure the most basic `.env` configuration.
 
 **Example .env file:**
 ```bash
 REGISTRY_IP=165.22.73.161
 REGISTRY_URL=https://onix-registry.domain_name.com
+REGISTRY_SUBDOMAIN=onix-registry
 
 GATEWAY_IP=46.101.159.195
 GATEWAY_URL=https://onix-gateway2.domain_name.com
+GATEWAY_SUBDOMAIN=onix-gateway
 
 BAP_SETUP_ID=onix-bap.domain_name.com
 BAP_IP=159.65.127.214
 BAP_URL=https://onix-bap.domain_name.com
 BAP_CLIENT_URL=https://onix-bap-client.domain_name.com
+BAP_SUBDOMAIN=onix-bap
+BAP_CLIENT_SUBDOMAIN=onix-bap-client
 
 BPP_SETUP_ID=onix-bpp.domain_name.com
 BPP_IP=142.93.101.242
 BPP_URL=https://onix-bpp.domain_name.com
 BPP_CLIENT_URL=https://onix-bpp-client.domain_name.com
+BPP_SUBDOMAIN=onix-bpp
+BPP_CLIENT_SUBDOMAIN=onix-bpp-client
 
 DOMAIN_NAME=domain_name.com
 EMAIL=example@gmail.com
@@ -63,6 +69,7 @@ REGISTRY_PASSWORD=root
 LAYER2_CONFIG=https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
 
 TERM=xterm
+
 ```
 ## Running the setup
 Once the .env file and servers are ready, change directory to the `scripts/` folder and simply run:

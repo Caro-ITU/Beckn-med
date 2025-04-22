@@ -1,5 +1,5 @@
 server {
-        server_name onix-bap.foodeez.dk;
+        server_name onix-bap.domain_name.com;
         location / {
                 # This for Host, Client and Forwarded For
                 proxy_set_header Host $http_host;
@@ -17,14 +17,14 @@ server {
 
 }
 server {
-    if ($host = onix-bap.foodeez.dk) {
+    if ($host = onix-bap.domain_name.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
         listen 80;
         listen [::]:80;
-        server_name onix-bap.foodeez.dk;
+        server_name onix-bap.domain_name.com;
     return 404; # managed by Certbot
 
 

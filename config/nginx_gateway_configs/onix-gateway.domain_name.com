@@ -1,14 +1,14 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name onix-registry.foodeez.dk;
+    server_name onix-gateway.domain_name.com;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name onix-registry.foodeez.dk;
+    server_name onix-gateway.domain_name.com;
     
     underscores_in_headers on;
     gzip on;
@@ -21,31 +21,31 @@ server {
     gzip_min_length 256;
     gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss application/javascript text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon font/woff font/woff2 application/octet-stream font/ttf;
     
-    ssl_certificate /etc/letsencrypt/live/onix-registry.foodeez.dk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/onix-registry.foodeez.dk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/onix-gateway.domain_name.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/onix-gateway.domain_name.com/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
     
-    access_log /var/log/nginx/app_beckn_registry_access.log;
-    error_log /var/log/nginx/app_beckn_registry_error.log debug;
+    access_log /var/log/nginx/app_beckn_gateway_access.log;
+    error_log /var/log/nginx/app_beckn_gateway_error.log;
     client_max_body_size 10M;
+    keepalive_timeout 70;
+    ignore_invalid_headers off;
     
     location / {
         if ($uri ~* "\.(jpg|jpeg|png|gif|ico|ttf|eot|svg|woff|woff2|css|js)$") {
             add_header 'Cache-Control' 'no-cache';
         }
         
-        proxy_set_header Host $http_host;
+        proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-URIScheme https;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
+        proxy_pass "http://localhost:4030/";
         
-        proxy_pass "http://localhost:3030";
-        
-        set $cors 'true';
-        
+        set $cors '';
+        if ($http_origin ~ '^https?://(localhost|onix\-gateway\.foodeez\.dk)') {
+            set $cors 'true';
+        }
         add_header 'Access-Control-Allow-Origin' "$http_origin" always;
         
         if ($cors = 'true') {
@@ -66,4 +66,3 @@ server {
         }
     }
 }
-

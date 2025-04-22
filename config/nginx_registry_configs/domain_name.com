@@ -1,9 +1,9 @@
 server {
 
-        root /var/www/foodeez.dk/html;
+        root /var/www/domain_name.com/html;
         index index.html index.htm index.nginx-debian.html;
 
-        server_name foodeez.dk www.foodeez.dk;
+        server_name domain_name.com www.domain_name.com;
 
         location / {
                 try_files $uri $uri/ =404;
@@ -12,7 +12,7 @@ server {
 
 }
 server {
-    if ($host = foodeez.dk) {
+    if ($host = domain_name.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
@@ -20,7 +20,7 @@ server {
         listen 80;
         listen [::]:80;
 
-        server_name foodeez.dk www.foodeez.dk;
+        server_name domain_name.com www.domain_name.com;
     return 404; # managed by Certbot
 
 
