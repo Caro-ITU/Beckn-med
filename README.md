@@ -30,30 +30,39 @@ Ensure your local machine has an SSH agent running and configured, especially if
 ### 2. Domain name + DNS records for each server
 Each component requires a unique subdomain (e.g., onix-registry.domain.com, onix-bap.domain.com, etc.)
 
-**TODO:** explain DNS configurations in detail
+**Example DNS configration with A records and subdomains:**
+|Hostname                                   |Value         |
+|-------------------------------------------|--------------|
+|onix-registry.domain.com                   |`$REGISTRY_IP`| 
+|onix-gateway.domain.com                    |`$GATEWAY_IP` |
+|onix-bap.domain.com                        |`$BAP_IP`     |
+|onix-bap-client.domain.com                 |`$BAP_IP`     |
+|onix-bpp.domain.com                        |`$BPP_IP`     |
+|onix-bpp-client.domain.com                 |`$BPP_IP`     |
+|onix-bpp-ps.domain.com **_(Webhook URL)_** |`$BPP_IP`     |
 
 ### 3. .env Configuration
 In the root of the repository, create a .env file to define all your infrastructure variables. It's a lot of variables to configure, so you can use the `set_vars.sh` as a starting point, and it should configure the most basic `.env` configuration.
 
 **Example .env file:**
 ```bash
-REGISTRY_IP=165.22.73.161
+REGISTRY_IP=192.0.2.10
 REGISTRY_URL=https://onix-registry.domain_name.com
 REGISTRY_SUBDOMAIN=onix-registry
 
-GATEWAY_IP=46.101.159.195
-GATEWAY_URL=https://onix-gateway2.domain_name.com
+GATEWAY_IP=192.0.2.10
+GATEWAY_URL=https://onix-gateway.domain_name.com
 GATEWAY_SUBDOMAIN=onix-gateway
 
 BAP_SETUP_ID=onix-bap.domain_name.com
-BAP_IP=159.65.127.214
+BAP_IP=192.0.2.10
 BAP_URL=https://onix-bap.domain_name.com
 BAP_CLIENT_URL=https://onix-bap-client.domain_name.com
 BAP_SUBDOMAIN=onix-bap
 BAP_CLIENT_SUBDOMAIN=onix-bap-client
 
 BPP_SETUP_ID=onix-bpp.domain_name.com
-BPP_IP=142.93.101.242
+BPP_IP=192.0.2.10
 BPP_URL=https://onix-bpp.domain_name.com
 BPP_CLIENT_URL=https://onix-bpp-client.domain_name.com
 BPP_SUBDOMAIN=onix-bpp
