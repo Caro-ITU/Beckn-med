@@ -96,7 +96,8 @@ The script will handle:
 Due to Beckn specifications and their setup, a few things have to be done manually after the orchestrator script has been run:
 
 1. [Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
-2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain) 
+2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain)
+    * The webhook + layer2 for this project is set up to use this collection: https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
 3. [Restart gateway to reflect the domain update](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
 ```bash
 ssh root@gateway "docker restart gateway"
