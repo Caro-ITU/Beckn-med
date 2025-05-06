@@ -114,7 +114,7 @@ TASKS=(
     "nginx-configs/generate_all_configs.sh:local"
     "nginx-configs/upload_nginx_configs.sh:local"
     "nginx-configs/deploy_enable_configs.sh:remote"
-    "setup_TLS.sh:remote"
+    "setup_tls.sh:remote"
     "clone_repo.sh:remote"
     "start_webhook.sh:server:$BPP_IP"
     # "reset_docker.sh:remote"
