@@ -28,7 +28,7 @@ create_env_file() {
     # WEBHOOK_SUBDOMAIN="bpp$ENV_SUFFIX-ps"
 
     # Fixed subdomain variables:
-    REGISTRY_SUBDOMAIN="registry"
+    REGISTRY_SUBDOMAIN="onix-registry"
     GATEWAY_SUBDOMAIN="onix-gateway"
     BAP_SUBDOMAIN="onix-bap"
     BAP_CLIENT_SUBDOMAIN="onix-bap-client"
