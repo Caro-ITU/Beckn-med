@@ -91,25 +91,55 @@ The script will handle:
 * Installing dependencies
 * Running the ONIX setup for each component with your pre-filled config
 
+
 ## Post-Install Manual Steps
 
-Due to Beckn specifications and their setup, a few things have to be done manually after the orchestrator script has been run:
+The Orchestrator script automates almost the whole setup, however there are a few manual steps left to complete the setup:
 
-1. [Change subscription status on BAP and BPP](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry) 
-2. [Register custom domain in registry](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain)
-    * The webhook + layer2 for this project is set up to use this collection: [https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml](https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json)
-3. [Restart gateway to reflect the domain update](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
-```bash
-ssh root@gateway "docker restart gateway"
-```
+1.  **Change subscription status on BAP and BPP** [Official documentation](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry)
+    * 1.1. Sign into https://onix-registry.domain_name using: Username: root / Password: root
+    * 1.2. Navigate to Admin -> Network Participant
+    * 1.3. **Repeat next steps for both BAP and BPP**
+        * Press the *edit button*
+        * Go to Network Role -> press *edit button*
+        * Change status from 'INITATED' to 'SUBSCRIBED'
+        * DONE
+2.  **Register custom domain in registry** [Official documentation](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain)
+    * 2.1. Sign into https://onix-gateway.domain_name using: Username: root / Password: root
+    * 2.2. Navigate to Beckn -> Network Domain -> Press **+** to add new domain
+    * 2.3. The Default used in this project is:
+        * `Name: Retail:1.1.0`
+        * `Description: Retail E-Commerce`
+        * `Schema URL: https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml`
+    * 2.4. Done
+3.  **Restart gateway to reflect the domain update** [Official documentation](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
+    * 3.1. For changes to take effects the gateway has to be restarted
+    ```bash
+    ssh root@gateway "docker restart gateway"
+    ```
 
 ## Verifying the setup
-You can now test your network by:
-* Using Beckn Postman collections
-   * **This collection, will match the layer2 + webhook setup from this guide:** https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json
-   * If you want to explore collections on your own, you can browse from this link. But keep in mind the layer2 configuration + webhook server would need to match the chosen collection: https://github.com/beckn/beckn-sandbox/tree/main/artefacts 
-* Sending real requests to your deployed domains
-* Monitoring logs with:
-```bash
-docker logs -f bap-client
-```
+
+To verify that the network is functioning as intended, you can use Postman
+
+1.  In Postman, press **Import** and paste `https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json`
+2.  Setup Environment variables in Postman to look like this:
+
+    | Variable      | Value                                              |
+    |---------------|----------------------------------------------------|
+    | `base_url`    | https://onix-bap2-client.{DOMAIN_NAME}             |
+    | `bap_uri`     | https://onix-bap2.{DOMAIN_NAME}                   |
+    | `bap_id`      | onix-bap2.{DOMAIN_NAME}                            |
+    | `bpp_id`      | onix-bpp2.{DOMAIN_NAME}                            |
+    | `bpp_uri`     | https://onix-bpp2.{DOMAIN_NAME}                   |
+    | `$randomUUID` | *A random 36-character UUID* |
+
+3.  Try to send various requests and follow the transaction through the different /logs endpoints
+
+    https://onix-bap-client.{DOMAIN_NAME}/logs
+
+    https://onix-bap.{DOMAIN_NAME}/logs
+
+    https://onix-bpp-client.{DOMAIN_NAME}/logs
+
+    https://onix-bpp.{DOMAIN_NAME}/logs
