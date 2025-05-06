@@ -106,7 +106,7 @@ ssh root@gateway "docker restart gateway"
 ## Verifying the setup
 You can now test your network by:
 * Using Beckn Postman collections
-   * **This collection, will match the layer2 + webhook setup from this guide:** https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
+   * **This collection, will match the layer2 + webhook setup from this guide:** https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json
    * If you want to explore collections on your own, you can browse from this link. But keep in mind the layer2 configuration + webhook server would need to match the chosen collection: https://github.com/beckn/beckn-sandbox/tree/main/artefacts 
 * Sending real requests to your deployed domains
 * Monitoring logs with:
