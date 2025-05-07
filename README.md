@@ -47,30 +47,30 @@ In the root of the repository, create a .env file to define all your infrastruct
 **Example .env file:**
 ```bash
 REGISTRY_IP=192.0.2.10
-REGISTRY_URL=https://onix-registry.domain_name.com
+REGISTRY_URL=https://onix-registry.domain.com
 REGISTRY_SUBDOMAIN=onix-registry
 
 GATEWAY_IP=192.0.2.10
-GATEWAY_URL=https://onix-gateway.domain_name.com
+GATEWAY_URL=https://onix-gateway.domain.com
 GATEWAY_SUBDOMAIN=onix-gateway
 
-BAP_SETUP_ID=onix-bap.domain_name.com
+BAP_SETUP_ID=onix-bap.domain.com
 BAP_IP=192.0.2.10
-BAP_URL=https://onix-bap.domain_name.com
-BAP_CLIENT_URL=https://onix-bap-client.domain_name.com
+BAP_URL=https://onix-bap.domain.com
+BAP_CLIENT_URL=https://onix-bap-client.domain.com
 BAP_SUBDOMAIN=onix-bap
 BAP_CLIENT_SUBDOMAIN=onix-bap-client
 
-BPP_SETUP_ID=onix-bpp.domain_name.com
+BPP_SETUP_ID=onix-bpp.domain.com
 BPP_IP=192.0.2.10
-BPP_URL=https://onix-bpp.domain_name.com
-BPP_CLIENT_URL=https://onix-bpp-client.domain_name.com
+BPP_URL=https://onix-bpp.domain.com
+BPP_CLIENT_URL=https://onix-bpp-client.domain.com
 BPP_SUBDOMAIN=onix-bpp
 BPP_CLIENT_SUBDOMAIN=onix-bpp-client
 
-DOMAIN_NAME=domain_name.com
+DOMAIN_NAME=domain.com
 EMAIL=example@gmail.com
-WEBHOOK_URL=https://onix-bpp-ps.domain_name.com/webhook
+WEBHOOK_URL=https://onix-bpp-ps.domain.com/webhook
 
 REGISTRY_USERNAME=root
 REGISTRY_PASSWORD=root
@@ -97,21 +97,21 @@ The script will handle:
 The Orchestrator script automates almost the whole setup, however there are a few manual steps left to complete the setup:
 
 1.  **Change subscription status on BAP and BPP** [Official documentation](https://github.com/beckn/beckn-onix/blob/main/docs/user_guide.md#changing-subscription-status-of-bap-and-bpp-at-the-registry)
-    * 1.1. Sign into https://onix-registry.domain_name using: Username: root / Password: root
+    * 1.1. Sign into `https://onix-registry.domain.com` using: Username: root / Password: root
     * 1.2. Navigate to Admin -> Network Participant
     * 1.3. **Repeat next steps for both BAP and BPP**
-        * Press the *edit button*
+        * Click the *edit button*
         * Go to Network Role -> press *edit button*
         * Change status from 'INITATED' to 'SUBSCRIBED'
-        * DONE
+        * Click Done
 2.  **Register custom domain in registry** [Official documentation](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain)
-    * 2.1. Sign into https://onix-gateway.domain_name using: Username: root / Password: root
-    * 2.2. Navigate to Beckn -> Network Domain -> Press **+** to add new domain
+    * 2.1. Sign into `https://onix-gateway.domain.com` using: Username: root / Password: root
+    * 2.2. Navigate to Beckn -> Network Domain -> Click **+** to add new domain
     * 2.3. The Default used in this project is:
-        * `Name: Retail:1.1.0`
-        * `Description: Retail E-Commerce`
-        * `Schema URL: https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml`
-    * 2.4. Done
+        * **Name:** `Retail:1.1.0`
+        * **Description:** `Retail E-Commerce`
+        * **Schema URL:** https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
+    * 2.4. Click Done
 3.  **Restart gateway to reflect the domain update** [Official documentation](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
     * 3.1. For changes to take effects the gateway has to be restarted
     ```bash
@@ -122,24 +122,24 @@ The Orchestrator script automates almost the whole setup, however there are a fe
 
 To verify that the network is functioning as intended, you can use Postman
 
-1.  In Postman, press **Import** and paste `https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json`
+1.  In Postman, press **Import** and paste https://raw.githubusercontent.com/beckn/beckn-sandbox/refs/heads/main/artefacts/Retail/retail-sanbox.postman_collection.json
 2.  Setup Environment variables in Postman to look like this:
 
     | Variable      | Value                                              |
     |---------------|----------------------------------------------------|
-    | `base_url`    | https://onix-bap2-client.{DOMAIN_NAME}             |
-    | `bap_uri`     | https://onix-bap2.{DOMAIN_NAME}                   |
-    | `bap_id`      | onix-bap2.{DOMAIN_NAME}                            |
-    | `bpp_id`      | onix-bpp2.{DOMAIN_NAME}                            |
-    | `bpp_uri`     | https://onix-bpp2.{DOMAIN_NAME}                   |
+    | `base_url`    | `https://onix-bap2-client.domain.com`             |
+    | `bap_uri`     | `https://onix-bap2.domain.com`                   |
+    | `bap_id`      | `onix-bap2.domain.com`                            |
+    | `bpp_id`      | `onix-bpp2.domain.com`                            |
+    | `bpp_uri`     | `https://onix-bpp2.domain.com`                   |
     | `$randomUUID` | *A random 36-character UUID* |
 
 3.  Try to send various requests and follow the transaction through the different /logs endpoints
 
-    https://onix-bap-client.{DOMAIN_NAME}/logs
+    `https://onix-bap-client.domain.com/logs`
 
-    https://onix-bap.{DOMAIN_NAME}/logs
+    `https://onix-bap.domain.com/logs`
 
-    https://onix-bpp-client.{DOMAIN_NAME}/logs
+    `https://onix-bpp-client.domain.com/logs`
 
-    https://onix-bpp.{DOMAIN_NAME}/logs
+    `https://onix-bpp.domain.com/logs`
