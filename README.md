@@ -127,11 +127,11 @@ To verify that the network is functioning as intended, you can use Postman
 
     | Variable      | Value                                              |
     |---------------|----------------------------------------------------|
-    | `base_url`    | `https://onix-bap2-client.domain.com`             |
-    | `bap_uri`     | `https://onix-bap2.domain.com`                   |
-    | `bap_id`      | `onix-bap2.domain.com`                            |
-    | `bpp_id`      | `onix-bpp2.domain.com`                            |
-    | `bpp_uri`     | `https://onix-bpp2.domain.com`                   |
+    | `base_url`    | `https://onix-bap-client.domain.com`             |
+    | `bap_uri`     | `https://onix-bap.domain.com`                   |
+    | `bap_id`      | `onix-bap.domain.com`                            |
+    | `bpp_id`      | `onix-bpp.domain.com`                            |
+    | `bpp_uri`     | `https://onix-bpp.domain.com`                   |
     | `$randomUUID` | *A random 36-character UUID* |
 
 3.  Try to send various requests and follow the transaction through the different /logs endpoints
