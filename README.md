@@ -105,17 +105,17 @@ The Orchestrator script automates almost the whole setup, however there are a fe
         * Change status from 'INITATED' to 'SUBSCRIBED'
         * Click Done
 2.  **Register custom domain in registry** [Official documentation](https://github.com/beckn/missions/blob/main/docs/registry-user-guide.md#create-new-network-domain)
-    * 2.1. Sign into `https://onix-gateway.domain.com` using: Username: root / Password: root
-    * 2.2. Navigate to Beckn -> Network Domain -> Click **+** to add new domain
+    * 2.1. Sign into `https://onix-registry.domain.com` using: Username: root / Password: root
+    * 2.2. Navigate to Beckn -> Network Domain -> Click **"+"** to add new domain
     * 2.3. The Default used in this project is:
-        * **Name:** `Retail:1.1.0`
+        * **Name:** `retail:1.1.0`
         * **Description:** `Retail E-Commerce`
         * **Schema URL:** https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml
     * 2.4. Click Done
 3.  **Restart gateway to reflect the domain update** [Official documentation](https://github.com/beckn/missions/blob/main/docs/troubleshoot.md#troubleshooting-gateway)
     * 3.1. For changes to take effects the gateway has to be restarted
     ```bash
-    ssh root@gateway "docker restart gateway"
+    ssh root@GATEWAY_IP "docker restart gateway"
     ```
 
 ## Verifying the setup
