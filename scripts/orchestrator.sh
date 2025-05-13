@@ -117,7 +117,6 @@ TASKS=(
     "setup_tls.sh:remote"
     "clone_repo.sh:remote"
     "start_webhook.sh:server:$BPP_IP"
-    # "reset_docker.sh:remote"
     "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
     "beckn_setup/setup_registry.sh:server:$REGISTRY_IP"
     "beckn_setup/setup_gateway.sh:server:$GATEWAY_IP"

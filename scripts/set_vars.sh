@@ -16,16 +16,6 @@ create_env_file() {
     BPP_IP=$(get_user_input "Enter BPP IP: ")
     DOMAIN_NAME=$(get_user_input "Enter Domain Name (e.g. domain_name.com): ")
     EMAIL=$(get_user_input "Enter your email: ")
-    # ENV_SUFFIX=$(get_user_input "Enter environment suffix (e.g. 2 for 'onix-bpp2'): ")
-
-    # Derived variables with suffix
-    # REGISTRY_SUBDOMAIN="registry$ENV_SUFFIX"
-    # GATEWAY_SUBDOMAIN="gateway$ENV_SUFFIX"
-    # BAP_SUBDOMAIN="bap$ENV_SUFFIX"
-    # BAP_CLIENT_SUBDOMAIN="bap$ENV_SUFFIX-client"
-    # BPP_SUBDOMAIN="bpp$ENV_SUFFIX"
-    # BPP_CLIENT_SUBDOMAIN="bpp$ENV_SUFFIX-client"
-    # WEBHOOK_SUBDOMAIN="bpp$ENV_SUFFIX-ps"
 
     # Fixed subdomain variables:
     REGISTRY_SUBDOMAIN="onix-registry"

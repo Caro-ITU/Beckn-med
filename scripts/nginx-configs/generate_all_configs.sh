@@ -2,7 +2,6 @@
 
 set -e
 
-# Get the directory of this script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # List of configuration scripts (relative to nginx-configs/)
@@ -18,7 +17,6 @@ SCRIPTS=(
 
 echo "Generating configurations for DOMAIN_NAME=$DOMAIN_NAME in $CONFIG_DIR..."
 
-# Run each script, executing them from their absolute path
 for script in "${SCRIPTS[@]}"; do
     echo "Running $script..."
     bash "$SCRIPT_DIR/$script"

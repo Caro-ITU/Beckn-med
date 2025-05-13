@@ -19,7 +19,6 @@ CONFIG_FILES=(
     "$BPP_SUBDOMAIN.$DOMAIN_NAME $BPP_CLIENT_SUBDOMAIN.$DOMAIN_NAME $WEBHOOK_SUBDOMAIN.$DOMAIN_NAME"
 )
 
-# Iterate through each server and copy the respective config files
 for i in "${!SERVERS[@]}"; do
     server="${SERVERS[$i]}"
     config_files="${CONFIG_FILES[$i]}"
