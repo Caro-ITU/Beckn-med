@@ -2,7 +2,7 @@
 
 set -e
 
-REQUIRED_VARS=("BPP_SETUP_ID" "BPP_URL" "WEBHOOK_URL" "REGISTRY_URL" "REGISTRY_USERNAME" "REGISTRY_PASSWORD" "LAYER2_CONFIG" )
+REQUIRED_VARS=("BPP_SETUP_ID" "BPP_URL" "WEBHOOK_URL" "REGISTRY_URL" "REGISTRY_USERNAME" "REGISTRY_PASSWORD" "LAYER2_DOMAIN" "LAYER2_VERSION" )
 for var in "${REQUIRED_VARS[@]}"; do
     if [ -z "${!var}" ]; then
         echo "Error: $var is not set"
@@ -10,11 +10,12 @@ for var in "${REQUIRED_VARS[@]}"; do
     fi
 done
 
-cd beckn-onix/layer2 || { echo "beckn-onix/ repository not found on the BPP server"; exit 1; }
 echo "Configuring layer2 for $BPP_SETUP_ID at $BPP_URL"
 
-bash download_layer_2_config_bpp.sh <<EOF
-$LAYER2_CONFIG
-EOF
+PROCESSED_DOMAIN=$(echo "$LAYER2_DOMAIN" | tr ':' '_')
+FINAL_FILENAME="${PROCESSED_DOMAIN}_${LAYER2_VERSION}.yaml"
 
-echo "✅ BPP setup complete for $BPP_SETUP_ID"
+docker exec bpp-client cp "schemas/core_${LAYER2_VERSION}.yaml" "schemas/$FINAL_FILENAME"
+docker exec bpp-network cp "schemas/core_${LAYER2_VERSION}.yaml" "schemas/$FINAL_FILENAME"
+
+echo "BPP setup complete for $BPP_SETUP_ID"

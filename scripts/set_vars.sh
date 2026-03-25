@@ -42,7 +42,8 @@ create_env_file() {
     # Static values
     REGISTRY_USERNAME="root"
     REGISTRY_PASSWORD="root"
-    LAYER2_CONFIG="https://raw.githubusercontent.com/beckn/beckn-onix/refs/heads/main/layer2/samples/retail_1.1.0_1.1.0.yaml"
+    LAYER2_DOMAIN=retail:1.1.0
+    LAYER2_VERSION=1.1.0
     TERM="xterm"
 
     # Create .env content
@@ -70,7 +71,8 @@ WEBHOOK_URL=$WEBHOOK_URL
 WEBHOOK_SUBDOMAIN=$WEBHOOK_SUBDOMAIN
 REGISTRY_USERNAME=$REGISTRY_USERNAME
 REGISTRY_PASSWORD=$REGISTRY_PASSWORD
-LAYER2_CONFIG=$LAYER2_CONFIG
+LAYER2_DOMAIN=$LAYER2_DOMAIN
+LAYER2_VERSION=$LAYER2_VERSION
 TERM=$TERM"
 
     # Write to file
